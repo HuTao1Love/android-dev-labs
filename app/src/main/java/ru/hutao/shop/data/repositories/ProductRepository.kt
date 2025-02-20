@@ -13,5 +13,7 @@ class ProductRepository: IProductRepository {
 
     override suspend fun getProducts(): List<Product> = products;
 
+    override suspend fun searchProducts(partialName: String): List<Product> = products.filter { it.name.contains(partialName, true) };
+
     override suspend fun findProductById(id: UUID): Product? = products.firstOrNull { it.id == id };
 }
