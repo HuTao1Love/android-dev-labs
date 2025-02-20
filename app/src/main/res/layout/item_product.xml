@@ -11,6 +11,7 @@
         android:id="@+id/productImage"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:importantForAccessibility="no"
         android:scaleType="centerCrop"
         android:contentDescription="Изображение продукта"
         android:layout_marginBottom="8dp" />

@@ -8,8 +8,10 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import ru.hutao.shop.R
 import ru.hutao.shop.data.models.Product
@@ -24,6 +26,7 @@ class MainActivity : ComponentActivity() {
     private lateinit var progressBar: ProgressBar
     private lateinit var searchView: SearchView
     private lateinit var adapter: ProductAdapter
+    private var searchJob: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +37,11 @@ class MainActivity : ComponentActivity() {
         searchView = findViewById(R.id.search)
         adapter = ProductAdapter()
 
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            recyclerView.layoutManager = GridLayoutManager(this, 3)
+        } else {
+            recyclerView.layoutManager = LinearLayoutManager(this)
+        }
         recyclerView.adapter = adapter
 
         val repository = ProductRepository()
@@ -62,22 +69,22 @@ class MainActivity : ComponentActivity() {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                lifecycleScope.launch {
+                searchJob?.cancel()
+                searchJob = lifecycleScope.launch {
                     query?.let {
                         viewModel.processIntent(MainIntent.SearchProducts(query))
                     }
                 }
-
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                lifecycleScope.launch {
+                searchJob?.cancel()
+                searchJob = lifecycleScope.launch {
                     newText?.let {
                         viewModel.processIntent(MainIntent.SearchProducts(newText))
                     }
                 }
-
                 return false
             }
         })
