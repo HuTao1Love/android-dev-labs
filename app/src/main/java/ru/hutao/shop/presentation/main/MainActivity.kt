@@ -1,10 +1,13 @@
 package ru.hutao.shop.presentation.main
+
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
@@ -13,7 +16,7 @@ import ru.hutao.shop.data.models.Product
 import ru.hutao.shop.data.repositories.ProductRepository
 import ru.hutao.shop.usecases.GetProductsUseCase
 
-// смена конфигурации, поиск (в той же активити), профиль
+// поиск (в той же активити), профиль
 // озвучка с помощью talkback
 class MainActivity : ComponentActivity() {
     private lateinit var viewModel: MainViewModel
@@ -29,7 +32,12 @@ class MainActivity : ComponentActivity() {
         progressBar = findViewById(R.id.progressBar)
         adapter = ProductAdapter()
 
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        // Check orientation and set the appropriate LayoutManager
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            recyclerView.layoutManager = GridLayoutManager(this, 3) // 3 items per row in landscape
+        } else {
+            recyclerView.layoutManager = LinearLayoutManager(this) // Default LinearLayoutManager for portrait
+        }
         recyclerView.adapter = adapter
 
         val repository = ProductRepository()

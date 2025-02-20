@@ -1,5 +1,6 @@
 package ru.hutao.shop.presentation.main
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ class ProductAdapter : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() 
 
     private val products = mutableListOf<Product>()
 
+    @SuppressLint("NotifyDataSetChanged")
     fun submitList(newProducts: List<Product>) {
         products.clear()
         products.addAll(newProducts)

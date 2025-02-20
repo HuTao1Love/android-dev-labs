@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "ru.hutao.shop"
-    compileSdk = 35 // Обновляем до версии 35
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "ru.hutao.shop"
-        minSdk = 24
-        targetSdk = 35 // Обновляем targetSdk до 35
+        minSdk = 21
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -36,7 +36,7 @@ android {
 }
 
 dependencies {
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1") // Обновляем до более новой версии
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
