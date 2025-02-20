@@ -18,7 +18,6 @@ import ru.hutao.shop.usecases.GetProductsUseCase
 import ru.hutao.shop.usecases.SearchProductsUseCase
 
 // профиль
-// озвучка с помощью talkback
 class MainActivity : ComponentActivity() {
     private lateinit var viewModel: MainViewModel
     private lateinit var recyclerView: RecyclerView
