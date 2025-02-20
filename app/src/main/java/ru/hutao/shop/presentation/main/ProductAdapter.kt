@@ -38,10 +38,11 @@ class ProductAdapter : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() 
         private val titleTextView: TextView = itemView.findViewById(R.id.productTitle)
         private val priceTextView: TextView = itemView.findViewById(R.id.productPrice)
 
+        @SuppressLint("SetTextI18n")
         fun bind(product: Product) {
             imageView.setImageResource(R.drawable.placeholder_image)
             titleTextView.text = product.name
-            priceTextView.text = "${product.price}Р"
+            priceTextView.text = "${product.price} ₽"
         }
     }
 }
