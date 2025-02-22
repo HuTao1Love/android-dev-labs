@@ -8,8 +8,6 @@
     <style name="Theme.Shop" parent="Base.Theme.Shop" />
 
     <style name="CardView.Dark" parent="Widget.MaterialComponents.CardView">
-        <item name="cardBackgroundColor">#121212</item>
-        <item name="cardElevation">4dp</item>
-        <item name="cardCornerRadius">8dp</item>
+        <item name="cardBackgroundColor">#FFFF00</item>
     </style>
 </resources>
