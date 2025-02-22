@@ -1,6 +1,5 @@
 package ru.hutao.shop.presentation.main
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
@@ -8,8 +7,6 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -37,15 +34,10 @@ class MainActivity : ComponentActivity() {
         searchView = findViewById(R.id.search)
         adapter = ProductAdapter()
 
-        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            recyclerView.layoutManager = GridLayoutManager(this, 3)
-        } else {
-            recyclerView.layoutManager = LinearLayoutManager(this)
-        }
         recyclerView.adapter = adapter
 
         val repository = ProductRepository()
-        viewModel = MainViewModel(GetProductsUseCase(repository), SearchProductsUseCase(repository))
+        viewModel = MainViewModel(repository)
 
         lifecycleScope.launch {
             viewModel.state.collect { state ->
@@ -63,17 +55,11 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        lifecycleScope.launch {
-            viewModel.processIntent(MainIntent.LoadProducts)
-        }
-
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 searchJob?.cancel()
                 searchJob = lifecycleScope.launch {
-                    query?.let {
-                        viewModel.processIntent(MainIntent.SearchProducts(query))
-                    }
+                    query.let { viewModel.processIntent(searchProducts(query)) }
                 }
                 return false
             }
@@ -81,13 +67,26 @@ class MainActivity : ComponentActivity() {
             override fun onQueryTextChange(newText: String?): Boolean {
                 searchJob?.cancel()
                 searchJob = lifecycleScope.launch {
-                    newText?.let {
-                        viewModel.processIntent(MainIntent.SearchProducts(newText))
-                    }
+                    newText.let { viewModel.processIntent(searchProducts(newText)) }
                 }
                 return false
             }
         })
+
+        lifecycleScope.launch {
+            searchView.setQuery(intent.getStringExtra("searchQuery"), true)
+        }
+    }
+
+    private fun searchProducts(query: String?): MainIntent {
+        return when {
+            query == null
+                || query == ""
+                || query.equals("category:", true) -> MainIntent.LoadProducts
+            query != "category:"
+                && query.startsWith("category:", true) -> MainIntent.SearchProductsCategory(query.replace("category:", ""))
+            else -> MainIntent.SearchProducts(query)
+        }
     }
 
     private fun showLoading() {

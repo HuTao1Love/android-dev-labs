@@ -3,6 +3,6 @@ package ru.hutao.shop.usecases
 import ru.hutao.shop.data.models.Product
 import ru.hutao.shop.data.repositories.IProductRepository
 
-class SearchProductsUseCase(private val repository: IProductRepository) {
-    suspend operator fun invoke(partialName: String): List<Product> = repository.searchProducts(partialName)
+class SearchProductsUseCase(private val repository: IProductRepository, private val partialName: String): IGetProductsUseCase {
+    override suspend operator fun invoke(): List<Product> = repository.searchByName(partialName)
 }
