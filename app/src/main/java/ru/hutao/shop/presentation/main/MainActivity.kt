@@ -13,8 +13,6 @@ import kotlinx.coroutines.launch
 import ru.hutao.shop.R
 import ru.hutao.shop.data.models.Product
 import ru.hutao.shop.data.repositories.ProductRepository
-import ru.hutao.shop.usecases.GetProductsUseCase
-import ru.hutao.shop.usecases.SearchProductsUseCase
 
 // профиль
 class MainActivity : ComponentActivity() {
@@ -42,15 +40,9 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch {
             viewModel.state.collect { state ->
                 when (state) {
-                    is MainState.Loading -> {
-                        showLoading()
-                    }
-                    is MainState.Success -> {
-                        showProducts(state.products)
-                    }
-                    is MainState.Error -> {
-                        showError(state.message)
-                    }
+                    is MainState.Loading -> showLoading()
+                    is MainState.Success -> showProducts(state.products)
+                    is MainState.Error -> showError(state.message)
                 }
             }
         }
@@ -91,7 +83,6 @@ class MainActivity : ComponentActivity() {
 
     private fun showLoading() {
         progressBar.visibility = View.VISIBLE
-        recyclerView.visibility = View.GONE
     }
 
     private fun showProducts(products: List<Product>) {
