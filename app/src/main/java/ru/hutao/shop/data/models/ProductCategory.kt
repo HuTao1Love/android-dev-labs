@@ -4,6 +4,6 @@ import java.io.Serializable
 import java.util.UUID
 
 data class ProductCategory(
-    var id: UUID,
+    val id: UUID,
     val name: String
 ) : Serializable

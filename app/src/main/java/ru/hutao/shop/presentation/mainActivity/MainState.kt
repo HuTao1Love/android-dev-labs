@@ -1,4 +1,4 @@
-package ru.hutao.shop.presentation.main
+package ru.hutao.shop.presentation.mainActivity
 
 import ru.hutao.shop.data.models.Product
 

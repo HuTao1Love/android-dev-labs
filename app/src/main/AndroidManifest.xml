@@ -14,13 +14,14 @@
         android:theme="@style/Theme.Shop"
         tools:targetApi="35">
         <activity
-            android:name=".presentation.main.MainActivity"
+            android:name=".presentation.mainActivity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.productDetail.ProductDetailActivity"/>
+        <activity android:name=".presentation.productDetailActivity.ProductDetailActivity"/>
+        <activity android:name=".presentation.cartActivity.CartActivity"/>
     </application>
 </manifest>

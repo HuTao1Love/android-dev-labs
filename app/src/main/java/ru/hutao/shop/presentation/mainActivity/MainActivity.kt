@@ -1,4 +1,4 @@
-package ru.hutao.shop.presentation.main
+package ru.hutao.shop.presentation.mainActivity
 
 import android.os.Bundle
 import android.view.View
@@ -13,8 +13,8 @@ import kotlinx.coroutines.launch
 import ru.hutao.shop.R
 import ru.hutao.shop.data.models.Product
 import ru.hutao.shop.data.repositories.ProductRepository
+import ru.hutao.shop.presentation.ProductAdapter
 
-// профиль
 class MainActivity : ComponentActivity() {
     private lateinit var viewModel: MainViewModel
     private lateinit var recyclerView: RecyclerView
@@ -34,8 +34,7 @@ class MainActivity : ComponentActivity() {
 
         recyclerView.adapter = adapter
 
-        val repository = ProductRepository()
-        viewModel = MainViewModel(repository)
+        viewModel = MainViewModel(ProductRepository())
 
         lifecycleScope.launch {
             viewModel.state.collect { state ->
@@ -75,8 +74,15 @@ class MainActivity : ComponentActivity() {
             query == null
                 || query == ""
                 || query.equals("category:", true) -> MainIntent.LoadProducts
+
             query != "category:"
-                && query.startsWith("category:", true) -> MainIntent.SearchProductsCategory(query.replace("category:", ""))
+                && query.startsWith("category:", true) -> MainIntent.SearchProductsCategory(
+                query.replace(
+                    "category:",
+                    ""
+                )
+            )
+
             else -> MainIntent.SearchProducts(query)
         }
     }

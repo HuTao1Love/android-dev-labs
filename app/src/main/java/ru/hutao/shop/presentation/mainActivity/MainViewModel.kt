@@ -1,18 +1,15 @@
-package ru.hutao.shop.presentation.main
+package ru.hutao.shop.presentation.mainActivity
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 import ru.hutao.shop.data.repositories.IProductRepository
-import ru.hutao.shop.usecases.CategorySearchUseCase
-import ru.hutao.shop.usecases.GetProductsUseCase
-import ru.hutao.shop.usecases.IGetProductsUseCase
-import ru.hutao.shop.usecases.SearchProductsUseCase
+import ru.hutao.shop.usecases.productsUseCases.CategorySearchUseCase
+import ru.hutao.shop.usecases.productsUseCases.GetProductsUseCase
+import ru.hutao.shop.usecases.productsUseCases.IGetProductsUseCase
+import ru.hutao.shop.usecases.productsUseCases.SearchProductsUseCase
 
 class MainViewModel(private val productRepository: IProductRepository) : ViewModel() {
-
     private val _state: MutableStateFlow<MainState> = MutableStateFlow(MainState.Loading)
     val state: StateFlow<MainState> get() = _state
 
@@ -25,14 +22,11 @@ class MainViewModel(private val productRepository: IProductRepository) : ViewMod
     }
 
     private suspend fun load(useCase: IGetProductsUseCase) {
-        viewModelScope.launch {
-            _state.value = MainState.Loading
-            try {
-                val products = useCase.invoke()
-                _state.value = MainState.Success(products)
-            } catch (e: Exception) {
-                _state.value = MainState.Error(e.message ?: "Ошибка загрузки")
-            }
+        _state.value = MainState.Loading
+        try {
+            _state.value = MainState.Success(useCase.invoke())
+        } catch (e: Exception) {
+            _state.value = MainState.Error(e.message ?: "Ошибка загрузки")
         }
     }
 }
