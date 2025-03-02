@@ -24,6 +24,7 @@ class CartAdapter(val listener: ICartItemChangedListener)
     fun submitList(newCartItems: List<CartItem>) {
         cartItems.clear()
         cartItems.addAll(newCartItems)
+        Log.e("test", newCartItems.toString())
         notifyDataSetChanged()
     }
 
@@ -48,7 +49,7 @@ class CartAdapter(val listener: ICartItemChangedListener)
         private val addItemButton: Button = itemView.findViewById(R.id.increaseQuantityButton)
         private val removeItemButton: Button = itemView.findViewById(R.id.decreaseQuantityButton)
 
-        @SuppressLint("SetTextI18n")
+        @SuppressLint("SetTextI18n", "NotifyDataSetChanged")
         fun bind(cartItem: CartItem) {
             productName.text = cartItem.product.name
             productPrice.text = "${cartItem.product.price} ₽"
@@ -69,12 +70,15 @@ class CartAdapter(val listener: ICartItemChangedListener)
 
             removeButton.setOnClickListener {
                 listener.onRemoveClicked(cartItem)
+                notifyDataSetChanged()
             }
             removeItemButton.setOnClickListener {
                 listener.onDecreaseClicked(cartItem)
+                notifyDataSetChanged()
             }
             addItemButton.setOnClickListener {
                 listener.onIncreaseClicked(cartItem)
+                notifyDataSetChanged()
             }
         }
     }

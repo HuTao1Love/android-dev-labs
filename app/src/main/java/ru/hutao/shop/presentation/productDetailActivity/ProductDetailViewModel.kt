@@ -1,5 +1,7 @@
 package ru.hutao.shop.presentation.productDetailActivity
 
+import android.util.Log
+import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import ru.hutao.shop.data.models.CartItem
@@ -11,19 +13,18 @@ import ru.hutao.shop.usecases.cartUseCases.RemoveFromCartUseCase
 import ru.hutao.shop.usecases.cartUseCases.UpdateCartItemQuantityUseCase
 import java.util.UUID
 
-class ProductDetailViewModel(cartRepository: ICartRepository) {
+class ProductDetailViewModel(deviceId: String, cartRepository: ICartRepository) : ViewModel() {
     private val _state: MutableStateFlow<ProductDetailState> = MutableStateFlow(ProductDetailState.Loading)
     val state: StateFlow<ProductDetailState> get() = _state
 
-    var quantity: Int? = null
-
-    private val addToCartUseCase = AddToCartUseCase(cartRepository)
-    private val getCartItemByIdUseCase = GetCartItemByIdUseCase(cartRepository)
-    private val removeFromCartUseCase = RemoveFromCartUseCase(cartRepository)
-    private val updateCartItemQuantityUseCase = UpdateCartItemQuantityUseCase(cartRepository)
+    private val addToCartUseCase = AddToCartUseCase(deviceId, cartRepository)
+    private val getCartItemByIdUseCase = GetCartItemByIdUseCase(deviceId, cartRepository)
+    private val removeFromCartUseCase = RemoveFromCartUseCase(deviceId, cartRepository)
+    private val updateCartItemQuantityUseCase = UpdateCartItemQuantityUseCase(deviceId, cartRepository)
 
     suspend fun processIntent(intent: ProductDetailIntent) {
         _state.value = ProductDetailState.Loading
+
         try {
             _state.value = when (intent) {
                 is ProductDetailIntent.LoadProduct -> getById(intent.productId)
@@ -38,28 +39,20 @@ class ProductDetailViewModel(cartRepository: ICartRepository) {
 
     private suspend fun addToCart(cartItem: CartItem): ProductDetailState {
         addToCartUseCase(cartItem)
-        val data = getCartItemByIdUseCase(cartItem.product.id)
-        quantity = data?.quantity
-        return ProductDetailState.Success(data)
+        return ProductDetailState.Success(getCartItemByIdUseCase(cartItem.product.id))
     }
 
     private suspend fun removeFromCart(cartItem: CartItem): ProductDetailState {
         removeFromCartUseCase(cartItem)
-        val data = getCartItemByIdUseCase(cartItem.product.id)
-        quantity = data?.quantity
-        return ProductDetailState.Success(data)
+        return ProductDetailState.Success(getCartItemByIdUseCase(cartItem.product.id))
     }
 
     private suspend fun updateCartItemQuantity(product: Product, newQuantity: Int): ProductDetailState {
         updateCartItemQuantityUseCase(product, newQuantity)
-        val data = getCartItemByIdUseCase(product.id)
-        quantity = data?.quantity
-        return ProductDetailState.Success(data)
+        return ProductDetailState.Success(getCartItemByIdUseCase(product.id))
     }
 
     private suspend fun getById(productId: UUID): ProductDetailState {
-        val data = getCartItemByIdUseCase(productId)
-        quantity = data?.quantity
-        return ProductDetailState.Success(data)
+        return ProductDetailState.Success(getCartItemByIdUseCase(productId))
     }
 }

@@ -1,20 +1,45 @@
-package ru.hutao.shop.data.repositories;
+package ru.hutao.shop.data.repositories
 
-import java.util.UUID;
-
-import kotlin.Unit;
-import ru.hutao.shop.data.models.CartItem;
+import retrofit2.Response
+import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.GET
+import retrofit2.http.PATCH
+import retrofit2.http.POST
+import retrofit2.http.Path
+import retrofit2.http.Query
+import ru.hutao.shop.data.models.CartItem
+import java.util.UUID
 
 interface ICartRepository {
-    suspend fun addCartItem(cartItem: CartItem): Unit;
+    @POST("cart")
+    suspend fun addCartItem(@Query("token") deviceId: String, @Body cartItem: CartItem);
 
-    suspend fun removeCartItem(cartItem: CartItem): Unit;
+    @DELETE("cart")
+    suspend fun removeCartItem(@Query("token") deviceId: String, @Body cartItem: CartItem);
 
-    suspend fun getCartItems(): List<CartItem>;
+    @GET("cart")
+    suspend fun getCartItems(@Query("token") deviceId: String): List<CartItem>;
 
-    suspend fun getCartItemById(id: UUID): CartItem?;
+    @GET("cart/{id}")
+    suspend fun getCartItemByIdInternal(@Path("id") id: UUID, @Query("token") deviceId: String): Response<CartItem?>;
 
-    suspend fun updateCartItemQuantity(cartItemId: UUID, quantity: Int);
+    @PATCH("cart/{id}")
+    suspend fun updateCartItemQuantity(@Path("id") cartItemId: UUID, @Query("token") deviceId: String, @Query("quantity") quantity: Int);
 
-    suspend fun clearCart();
+    @DELETE("cart/clear")
+    suspend fun clearCart(@Query("token") deviceId: String);
 }
+
+suspend fun ICartRepository.getCartItemById(id: UUID, deviceId: String): CartItem? {
+    return try {
+        this.getCartItemByIdInternal(id, deviceId).body()
+    } catch (e: Exception) {
+        if (e is retrofit2.HttpException && e.code() == 404) {
+            null
+        } else {
+            throw e
+        }
+    }
+}
+

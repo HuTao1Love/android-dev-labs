@@ -12,9 +12,13 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import ru.hutao.shop.R
 import ru.hutao.shop.data.models.Product
-import ru.hutao.shop.data.repositories.ProductRepository
+import ru.hutao.shop.data.repositories.RetrofitInstance
 import ru.hutao.shop.presentation.ProductAdapter
 
+// bundle зачем
+// activity как сохранить состояние
+// жизненный цикл активити (методы)
+// концепция хендлера, лупера, messagequeue
 class MainActivity : ComponentActivity() {
     private lateinit var viewModel: MainViewModel
     private lateinit var recyclerView: RecyclerView
@@ -34,7 +38,7 @@ class MainActivity : ComponentActivity() {
 
         recyclerView.adapter = adapter
 
-        viewModel = MainViewModel(ProductRepository())
+        viewModel = MainViewModel(RetrofitInstance.productRepository)
 
         lifecycleScope.launch {
             viewModel.state.collect { state ->
@@ -63,6 +67,14 @@ class MainActivity : ComponentActivity() {
                 return false
             }
         })
+
+        lifecycleScope.launch {
+            searchView.setQuery(intent.getStringExtra("searchQuery"), true)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         lifecycleScope.launch {
             searchView.setQuery(intent.getStringExtra("searchQuery"), true)
@@ -100,7 +112,7 @@ class MainActivity : ComponentActivity() {
     private fun showError(message: String) {
         progressBar.visibility = View.GONE
         recyclerView.visibility = View.GONE
-        Toast.makeText(this, "Ошибка: $message", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Ошибка: $message", Toast.LENGTH_LONG).show()
     }
 }
 

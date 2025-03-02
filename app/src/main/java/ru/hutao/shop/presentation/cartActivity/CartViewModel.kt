@@ -1,5 +1,6 @@
 package ru.hutao.shop.presentation.cartActivity
 
+import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import ru.hutao.shop.data.models.CartItem
@@ -10,28 +11,28 @@ import ru.hutao.shop.usecases.cartUseCases.ClearCartUseCase
 import ru.hutao.shop.usecases.cartUseCases.GetCartItemsUseCase
 import ru.hutao.shop.usecases.cartUseCases.RemoveFromCartUseCase
 import ru.hutao.shop.usecases.cartUseCases.UpdateCartItemQuantityUseCase
-import java.util.UUID
 
-class CartViewModel(cartRepository: ICartRepository) {
+class CartViewModel(private val deviceId: String, cartRepository: ICartRepository) : ViewModel() {
     private val _state: MutableStateFlow<CartState> = MutableStateFlow(CartState.Loading)
     val state: StateFlow<CartState> get() = _state
 
-    private val addToCartUseCase = AddToCartUseCase(cartRepository)
-    private val clearCartUseCase = ClearCartUseCase(cartRepository)
-    private val getCartItemsUseCase = GetCartItemsUseCase(cartRepository)
-    private val removeFromCartUseCase = RemoveFromCartUseCase(cartRepository)
-    private val updateCartItemQuantityUseCase = UpdateCartItemQuantityUseCase(cartRepository)
+    private val addToCartUseCase = AddToCartUseCase(deviceId, cartRepository)
+    private val clearCartUseCase = ClearCartUseCase(deviceId, cartRepository)
+    private val getCartItemsUseCase = GetCartItemsUseCase(deviceId, cartRepository)
+    private val removeFromCartUseCase = RemoveFromCartUseCase(deviceId, cartRepository)
+    private val updateCartItemQuantityUseCase = UpdateCartItemQuantityUseCase(deviceId, cartRepository)
 
     suspend fun processIntent(intent: CartIntent) {
         _state.value = CartState.Loading
         try {
-            _state.value = when (intent) {
+            val state = when (intent) {
                 is CartIntent.AddToCart -> addToCart(intent.cartItem)
                 is CartIntent.ClearCart -> clearCart()
                 is CartIntent.LoadCart -> getCartItems()
                 is CartIntent.RemoveFromCart -> removeFromCart(intent.cartItem)
                 is CartIntent.UpdateCartItemQuantity -> updateCartItemQuantity(intent.product, intent.newQuantity)
-            }
+            };
+            _state.value = state
         } catch (e: Exception) {
             _state.value = CartState.Error(e.message ?: "Ошибка загрузки")
         }
