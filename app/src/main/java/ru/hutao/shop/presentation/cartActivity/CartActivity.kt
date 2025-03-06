@@ -10,14 +10,13 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.flow.observeOn
 import kotlinx.coroutines.launch
 import ru.hutao.shop.R
 import ru.hutao.shop.data.models.CartItem
 import ru.hutao.shop.data.repositories.RetrofitInstance
 
 class CartActivity : ComponentActivity(), ICartItemChangedListener {
-    private lateinit var viewModel: CartViewModel
+    private lateinit var viewModel: CartView
     private lateinit var recyclerView: RecyclerView
     private lateinit var buyButton: Button
     private lateinit var adapter: CartAdapter
@@ -33,7 +32,7 @@ class CartActivity : ComponentActivity(), ICartItemChangedListener {
 
         recyclerView.adapter = adapter
 
-        viewModel = CartViewModel(Secure.getString(this.contentResolver, Secure.ANDROID_ID), RetrofitInstance.cartRepository)
+        viewModel = CartView(Secure.getString(this.contentResolver, Secure.ANDROID_ID), RetrofitInstance.cartRepository)
 
         lifecycleScope.launch {
             viewModel.state.collect { state ->

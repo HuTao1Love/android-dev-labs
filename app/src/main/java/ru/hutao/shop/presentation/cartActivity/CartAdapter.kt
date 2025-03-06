@@ -53,7 +53,7 @@ class CartAdapter(val listener: ICartItemChangedListener)
         fun bind(cartItem: CartItem) {
             productName.text = cartItem.product.name
             productPrice.text = "${cartItem.product.price} ₽"
-            productQuantity.text = "Количество: ${cartItem.quantity}"
+            productQuantity.text = cartItem.quantity.toString()
 
             Glide
                 .with(itemView.context)

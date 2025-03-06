@@ -20,7 +20,7 @@ import ru.hutao.shop.presentation.ProductAdapter
 // жизненный цикл активити (методы)
 // концепция хендлера, лупера, messagequeue
 class MainActivity : ComponentActivity() {
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: MainView
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var searchView: SearchView
@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
 
         recyclerView.adapter = adapter
 
-        viewModel = MainViewModel(RetrofitInstance.productRepository)
+        viewModel = MainView(RetrofitInstance.productRepository)
 
         lifecycleScope.launch {
             viewModel.state.collect { state ->

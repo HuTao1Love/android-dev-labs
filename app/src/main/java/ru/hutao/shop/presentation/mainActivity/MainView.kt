@@ -9,7 +9,7 @@ import ru.hutao.shop.usecases.productsUseCases.GetProductsUseCase
 import ru.hutao.shop.usecases.productsUseCases.IGetProductsUseCase
 import ru.hutao.shop.usecases.productsUseCases.SearchProductsUseCase
 
-class MainViewModel(private val productRepository: IProductRepository) : ViewModel() {
+class MainView(private val productRepository: IProductRepository) : ViewModel() {
     private val _state: MutableStateFlow<MainState> = MutableStateFlow(MainState.Loading)
     val state: StateFlow<MainState> get() = _state
 

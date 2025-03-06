@@ -1,6 +1,5 @@
 package ru.hutao.shop.presentation.productDetailActivity
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +12,7 @@ import ru.hutao.shop.usecases.cartUseCases.RemoveFromCartUseCase
 import ru.hutao.shop.usecases.cartUseCases.UpdateCartItemQuantityUseCase
 import java.util.UUID
 
-class ProductDetailViewModel(deviceId: String, cartRepository: ICartRepository) : ViewModel() {
+class ProductDetailView(deviceId: String, cartRepository: ICartRepository) : ViewModel() {
     private val _state: MutableStateFlow<ProductDetailState> = MutableStateFlow(ProductDetailState.Loading)
     val state: StateFlow<ProductDetailState> get() = _state
 

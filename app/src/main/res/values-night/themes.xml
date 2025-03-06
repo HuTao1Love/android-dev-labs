@@ -3,8 +3,9 @@
         <item name="android:colorBackground">@android:color/black</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:statusBarColor">@android:color/black</item>
+        <item name="android:windowBackground">@android:color/black</item>
         <item name="cardViewStyle">@style/CardView.Dark</item>
-<!--        <item name="cartViewStyle">@style/CartView.Dark</item>-->
+        <item name="binIcon">@drawable/bin_light</item>
     </style>
 
     <style name="Theme.Shop" parent="Base.Theme.Shop" />
@@ -13,5 +14,4 @@
         <item name="cardBackgroundColor">#121212</item>
     </style>
 
-<!--    <style name="CartView.Dark" parent=""-->
 </resources>
