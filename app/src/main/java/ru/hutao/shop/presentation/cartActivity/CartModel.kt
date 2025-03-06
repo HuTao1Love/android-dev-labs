@@ -12,7 +12,7 @@ import ru.hutao.shop.usecases.cartUseCases.GetCartItemsUseCase
 import ru.hutao.shop.usecases.cartUseCases.RemoveFromCartUseCase
 import ru.hutao.shop.usecases.cartUseCases.UpdateCartItemQuantityUseCase
 
-class CartView(private val deviceId: String, cartRepository: ICartRepository) : ViewModel() {
+class CartModel(private val deviceId: String, cartRepository: ICartRepository) : ViewModel() {
     private val _state: MutableStateFlow<CartState> = MutableStateFlow(CartState.Loading)
     val state: StateFlow<CartState> get() = _state
 

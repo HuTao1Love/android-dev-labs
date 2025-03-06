@@ -12,7 +12,7 @@ import ru.hutao.shop.usecases.cartUseCases.RemoveFromCartUseCase
 import ru.hutao.shop.usecases.cartUseCases.UpdateCartItemQuantityUseCase
 import java.util.UUID
 
-class ProductDetailView(deviceId: String, cartRepository: ICartRepository) : ViewModel() {
+class ProductDetailModel(deviceId: String, cartRepository: ICartRepository) : ViewModel() {
     private val _state: MutableStateFlow<ProductDetailState> = MutableStateFlow(ProductDetailState.Loading)
     val state: StateFlow<ProductDetailState> get() = _state
 

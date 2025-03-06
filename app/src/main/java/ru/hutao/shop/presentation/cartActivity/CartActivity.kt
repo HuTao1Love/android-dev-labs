@@ -16,7 +16,7 @@ import ru.hutao.shop.data.models.CartItem
 import ru.hutao.shop.data.repositories.RetrofitInstance
 
 class CartActivity : ComponentActivity(), ICartItemChangedListener {
-    private lateinit var viewModel: CartView
+    private lateinit var viewModel: CartModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var buyButton: Button
     private lateinit var adapter: CartAdapter
@@ -32,7 +32,7 @@ class CartActivity : ComponentActivity(), ICartItemChangedListener {
 
         recyclerView.adapter = adapter
 
-        viewModel = CartView(Secure.getString(this.contentResolver, Secure.ANDROID_ID), RetrofitInstance.cartRepository)
+        viewModel = CartModel(Secure.getString(this.contentResolver, Secure.ANDROID_ID), RetrofitInstance.cartRepository)
 
         lifecycleScope.launch {
             viewModel.state.collect { state ->

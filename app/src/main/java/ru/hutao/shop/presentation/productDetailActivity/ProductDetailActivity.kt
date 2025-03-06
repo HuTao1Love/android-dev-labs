@@ -23,7 +23,7 @@ import java.text.SimpleDateFormat
 class ProductDetailActivity : AppCompatActivity() {
     private val dateFormat: DateFormat = SimpleDateFormat.getDateInstance()
 
-    private lateinit var viewModel: ProductDetailView
+    private lateinit var viewModel: ProductDetailModel
     private lateinit var binding: ActivityProductDetailBinding
     private lateinit var product: Product
 
@@ -33,7 +33,7 @@ class ProductDetailActivity : AppCompatActivity() {
         binding = ActivityProductDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = ProductDetailView(Secure.getString(this.contentResolver, Secure.ANDROID_ID), RetrofitInstance.cartRepository)
+        viewModel = ProductDetailModel(Secure.getString(this.contentResolver, Secure.ANDROID_ID), RetrofitInstance.cartRepository)
         val product = intent.getSerializableExtra("product", Product::class.java)!!
 
         lifecycleScope.launch {
