@@ -32,14 +32,6 @@ interface ICartRepository {
 }
 
 suspend fun ICartRepository.getCartItemById(id: UUID, deviceId: String): CartItem? {
-    return try {
-        this.getCartItemByIdInternal(id, deviceId).body()
-    } catch (e: Exception) {
-        if (e is retrofit2.HttpException && e.code() == 404) {
-            null
-        } else {
-            throw e
-        }
-    }
+    return this.getCartItemByIdInternal(id, deviceId).body();
 }
 

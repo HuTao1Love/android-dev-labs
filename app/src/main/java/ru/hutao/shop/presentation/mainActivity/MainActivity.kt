@@ -15,10 +15,6 @@ import ru.hutao.shop.data.models.Product
 import ru.hutao.shop.data.repositories.RetrofitInstance
 import ru.hutao.shop.presentation.ProductAdapter
 
-// bundle зачем
-// activity как сохранить состояние
-// жизненный цикл активити (методы)
-// концепция хендлера, лупера, messagequeue
 class MainActivity : ComponentActivity() {
     private lateinit var viewModel: MainModel
     private lateinit var recyclerView: RecyclerView

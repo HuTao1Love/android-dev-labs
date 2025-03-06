@@ -32,27 +32,17 @@ class CartActivity : ComponentActivity(), ICartItemChangedListener {
 
         recyclerView.adapter = adapter
 
-        viewModel = CartModel(Secure.getString(this.contentResolver, Secure.ANDROID_ID), RetrofitInstance.cartRepository)
+        viewModel = CartModel(
+            this::showLoading,
+            this::showCart,
+            this::showError,
+            Secure.getString(this.contentResolver, Secure.ANDROID_ID),
+            RetrofitInstance.cartRepository)
 
-        lifecycleScope.launch {
-            viewModel.state.collect { state ->
-                when (state) {
-                    is CartState.Loading -> showLoading()
-                    is CartState.Success -> showCart(state.items)
-                    is CartState.Error -> showError(state.message)
-                }
-            }
-        }
-
-        lifecycleScope.launch {
-            viewModel.processIntent(CartIntent.LoadCart)
-        }
+        viewModel.processIntent(CartIntent.LoadCart)
 
         buyButton.setOnClickListener {
-            lifecycleScope.launch {
-                viewModel.processIntent(CartIntent.ClearCart)
-            }
-
+            viewModel.processIntent(CartIntent.ClearCart)
             Toast.makeText(this, "You bought it. Shop cart was cleared", Toast.LENGTH_LONG).show()
         }
     }
@@ -60,16 +50,13 @@ class CartActivity : ComponentActivity(), ICartItemChangedListener {
     override fun onResume() {
         super.onResume()
 
-        lifecycleScope.launch {
-            viewModel.processIntent(CartIntent.LoadCart)
-        }
+        viewModel.processIntent(CartIntent.LoadCart)
     }
 
     private fun showLoading() { }
 
     private fun showCart(items: List<CartItem>) {
         recyclerView.visibility = View.VISIBLE
-        Log.e("TEST", "HERE")
         adapter.submitList(items)
     }
 
@@ -79,22 +66,14 @@ class CartActivity : ComponentActivity(), ICartItemChangedListener {
     }
 
     override fun onRemoveClicked(cartItem: CartItem) {
-        lifecycleScope.launch {
-            viewModel.processIntent(CartIntent.RemoveFromCart(cartItem))
-        }
+        viewModel.processIntent(CartIntent.RemoveFromCart(cartItem))
     }
 
     override fun onDecreaseClicked(cartItem: CartItem) {
-        lifecycleScope.launch {
-            viewModel.processIntent(
-                CartIntent.UpdateCartItemQuantity(cartItem.product, -1))
-        }
+        viewModel.processIntent(CartIntent.UpdateCartItemQuantity(cartItem.product, -1))
     }
 
     override fun onIncreaseClicked(cartItem: CartItem) {
-        lifecycleScope.launch {
-            viewModel.processIntent(
-                CartIntent.UpdateCartItemQuantity(cartItem.product, +1))
-        }
+        viewModel.processIntent(CartIntent.UpdateCartItemQuantity(cartItem.product, +1))
     }
 }
