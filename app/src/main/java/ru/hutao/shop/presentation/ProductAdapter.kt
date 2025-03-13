@@ -9,7 +9,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import kotlinx.coroutines.Job
 import ru.hutao.shop.R
 import ru.hutao.shop.data.models.Product
 import ru.hutao.shop.presentation.productDetailActivity.ProductDetailActivity

@@ -1,4 +1,4 @@
-package ru.hutao.shop.usecases.productsUseCases
+package ru.hutao.shop.presentation.usecases.productsUseCases
 
 import ru.hutao.shop.data.models.Product
 

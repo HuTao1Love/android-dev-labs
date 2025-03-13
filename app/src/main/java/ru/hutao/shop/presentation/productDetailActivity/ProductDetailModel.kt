@@ -6,10 +6,10 @@ import kotlinx.coroutines.flow.StateFlow
 import ru.hutao.shop.data.models.CartItem
 import ru.hutao.shop.data.models.Product
 import ru.hutao.shop.data.repositories.ICartRepository
-import ru.hutao.shop.usecases.cartUseCases.AddToCartUseCase
-import ru.hutao.shop.usecases.cartUseCases.GetCartItemByIdUseCase
-import ru.hutao.shop.usecases.cartUseCases.RemoveFromCartUseCase
-import ru.hutao.shop.usecases.cartUseCases.UpdateCartItemQuantityUseCase
+import ru.hutao.shop.presentation.usecases.cartUseCases.AddToCartUseCase
+import ru.hutao.shop.presentation.usecases.cartUseCases.GetCartItemByIdUseCase
+import ru.hutao.shop.presentation.usecases.cartUseCases.RemoveFromCartUseCase
+import ru.hutao.shop.presentation.usecases.cartUseCases.UpdateCartItemQuantityUseCase
 import java.util.UUID
 
 class ProductDetailModel(deviceId: String, cartRepository: ICartRepository) : ViewModel() {

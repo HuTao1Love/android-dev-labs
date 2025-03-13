@@ -1,4 +1,4 @@
-package ru.hutao.shop.usecases.cartUseCases
+package ru.hutao.shop.presentation.usecases.cartUseCases
 
 import android.util.Log
 import com.google.gson.GsonBuilder

@@ -1,4 +1,4 @@
-package ru.hutao.shop.usecases.cartUseCases
+package ru.hutao.shop.presentation.usecases.cartUseCases
 
 import ru.hutao.shop.data.models.CartItem
 import ru.hutao.shop.data.repositories.ICartRepository

@@ -7,11 +7,11 @@ import kotlinx.coroutines.launch
 import ru.hutao.shop.data.models.CartItem
 import ru.hutao.shop.data.models.Product
 import ru.hutao.shop.data.repositories.ICartRepository
-import ru.hutao.shop.usecases.cartUseCases.AddToCartUseCase
-import ru.hutao.shop.usecases.cartUseCases.ClearCartUseCase
-import ru.hutao.shop.usecases.cartUseCases.GetCartItemsUseCase
-import ru.hutao.shop.usecases.cartUseCases.RemoveFromCartUseCase
-import ru.hutao.shop.usecases.cartUseCases.UpdateCartItemQuantityUseCase
+import ru.hutao.shop.presentation.usecases.cartUseCases.AddToCartUseCase
+import ru.hutao.shop.presentation.usecases.cartUseCases.ClearCartUseCase
+import ru.hutao.shop.presentation.usecases.cartUseCases.GetCartItemsUseCase
+import ru.hutao.shop.presentation.usecases.cartUseCases.RemoveFromCartUseCase
+import ru.hutao.shop.presentation.usecases.cartUseCases.UpdateCartItemQuantityUseCase
 
 class CartModel(
     showLoading: () -> Unit,

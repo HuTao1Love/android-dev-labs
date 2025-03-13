@@ -4,10 +4,10 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import ru.hutao.shop.data.repositories.IProductRepository
-import ru.hutao.shop.usecases.productsUseCases.CategorySearchUseCase
-import ru.hutao.shop.usecases.productsUseCases.GetProductsUseCase
-import ru.hutao.shop.usecases.productsUseCases.IGetProductsUseCase
-import ru.hutao.shop.usecases.productsUseCases.SearchProductsUseCase
+import ru.hutao.shop.presentation.usecases.productsUseCases.CategorySearchUseCase
+import ru.hutao.shop.presentation.usecases.productsUseCases.GetProductsUseCase
+import ru.hutao.shop.presentation.usecases.productsUseCases.IGetProductsUseCase
+import ru.hutao.shop.presentation.usecases.productsUseCases.SearchProductsUseCase
 
 class MainModel(private val productRepository: IProductRepository) : ViewModel() {
     private val _state: MutableStateFlow<MainState> = MutableStateFlow(MainState.Loading)
