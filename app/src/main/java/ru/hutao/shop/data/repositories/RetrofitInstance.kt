@@ -30,7 +30,7 @@ class NotFoundInterceptor : Interceptor {
     }
 }
 object RetrofitInstance {
-    private const val URL: String = "http://194.58.59.78:80/";
+    private const val URL: String = "http://185.193.102.149:81/";
 
     private val retrofit: Retrofit by lazy {
         val gson = GsonBuilder()
